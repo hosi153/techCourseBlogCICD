@@ -24,8 +24,8 @@ jobs:
         run: |
           docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
           docker build -t lgu-cicd . 
-          docker tag lgu-cicd jiyoung0/lgu-cicd:${GITHUB_SHA::7}
-          docker push jiyoung0/lgu-cicd:${GITHUB_SHA::7}
+          docker tag lgu-cicd jiyoung0/blog-cicd:${GITHUB_SHA::7}
+          docker push jiyoung0/blog-cicd:${GITHUB_SHA::7}
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
@@ -34,8 +34,8 @@ jobs:
           key: ${{ secrets.KEY }}
           envs: GITHUB_SHA
           script: |
-            docker pull jiyoung0/lgu-cicd:${GITHUB_SHA::7}
-            docker tag jiyoung0/lgu-cicd:${GITHUB_SHA::7} lgu-cicd
+            docker pull jiyoung0/blog-cicd:${GITHUB_SHA::7}
+            docker tag jiyoung0/blog-cicd:${GITHUB_SHA::7} blog-cicd
             docker stop server
             docker rm -f server
-            docker run -d --name server -p 8080:8080 lgu-cicd
+            docker run -d --name server -p 8080:8080 blog-cicd
