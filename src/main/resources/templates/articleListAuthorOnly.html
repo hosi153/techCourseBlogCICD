@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Articles</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div>
+        <div>로그인 정보 : <span id = "printId"></span>
+        <a href="/newArticle" class="btn btn-primary btn-sm">새 게시글 작성하기</a>
+        </div>
+        <script>
+            name = sessionStorage.getItem('name');
+            viewWriterBtn = true;
+            if(name===""|| name === 'undefined' || name === 'null'){
+                name = "사용자 정보 없음 "
+                viewWriterBtn = false;
+            }
+            else if(name === "게스트") viewWriterBtn = false;
+            console.log(name);
+            document.getElementById("printId").innerText = name;
+        </script>
+    </div>
+    <div class="row-6" th:each="item : ${articles}">
+        <div class="card">
+            <div class="card-header" th:text="|${itemStat.index+1} / ${item.title}|"></div>
+
+            <div class="card-body">
+                <input type="hidden" id="articleId" th:value="${item.articleId}">
+                <a th:href="@{/articles/{id}(id=${item.articleId})}"> 상세 </a>
+                <p class="card-text" th:text="|내용 : ${item.content}|"></p>
+            </div>
+            <div class="card-footer text-muted" th:text="|작성자 : ${item.memberName}  / 작성일 : ${#temporals.format(item.createdAt, 'yy년 M월 d일 HH:mm')}|"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
