@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Editing</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container" th:with="item = ${article}">
+    <div class="card">
+        <div class="card-header" th:text="|[${item.title}] 게시글 수정하기 [작성자 : ${item.memberName}]|" th:with="articleId='${item.articleId}'"></div>
+        <div class="card-body">
+            <input type="hidden" id="articleId" th:value="${item.articleId}">
+            <p class="card-text" th:text="|작성일 : ${#temporals.format(item.createdAt, 'M월 d일 HH:mm')}  / 최종 수정일 : ${#temporals.format(item.updatedAt, 'M월 d일 HH:mm')}|"></p>
+            <textarea type="text" class="form-control" id="editContent" rows="5">[[${item.content}]] </textarea>
+        </div>
+    </div>
+    <div>
+        <button type="button" id="editSaveBTN" class="btn btn-primary btn-sm">수정내용 저장</button>
+        <a href="/articles" class="btn btn-primary btn-sm">돌아가기</a>
+
+    </div>
+</div>
+<script th:inline="javascript" src="/js/article.js"></script>
+</body>
+</html>
